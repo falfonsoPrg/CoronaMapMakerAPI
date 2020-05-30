@@ -29,7 +29,7 @@ create table DESTINATIONS(
     id_user int,
     cod_place int,
     time_destination date not null,
-    PRIMARY KEY (`id_user`,`cod_place`),
+    PRIMARY KEY (`id_user`,`cod_place`,`time_destination`),
     FOREIGN KEY (id_user) REFERENCES USERS(id_user),
     FOREIGN KEY (cod_place) REFERENCES PLACES(cod_place)
 );
