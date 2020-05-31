@@ -1,20 +1,34 @@
 const mysql = require("mysql")
 
-var connection = mysql.createConnection({
-    host     : process.env.DB_HOST,
-    user     : process.env.DB_USER,
-    password : process.env.DB_PASSWORD,
-    database : process.env.DB_DATABASE
-});
+var connection;
 
+function handleDisconnect(){
+    connection = mysql.createConnection({
+        host     : process.env.DB_HOST,
+        user     : process.env.DB_USER,
+        password : process.env.DB_PASSWORD,
+        database : process.env.DB_DATABASE
+    });
 
-connection.connect((err) => {
-    if(err){
-        console.log("Error connecting to the database " + "err.stack")
-        return
-    }
-    console.log("Connection to server ON, connected as id " + connection.threadId)
-})
+    connection.connect((err) => {
+        if(err){
+            console.log("Error connecting to the database " + "err.stack")
+            setTimeout(handleDisconnect, 2000); 
+        }
+        console.log("Connection to server ON, connected as id " + connection.threadId)
+    })
+
+    connection.on('error', (err) => {
+        console.log("DB error",err)
+        if(err.code === 'PROTOCOL_CONNECTION_LOST'){
+            handleDisconnect();
+        }else{
+            throw err
+        }
+    })
+}
+
+handleDisconnect();
 
 let db = {}
 
