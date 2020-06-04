@@ -95,7 +95,7 @@ router.delete('/deleteSymtomFromUser/:id_user/:cod_symptom',verify, async (req,r
     }
 })
 
-router.get('/allSymptomsOfUser',verify, async (req,res) => {
+router.get('/allSymptomsOfUser/:id_user',verify, async (req,res) => {
     //Check if the id of the user do not exist
     const idUser = await db.findUserById(req.params.id_user)
     if(!idUser[0]) return res.status(400).send('The id of the user is not registered in the database')
@@ -154,22 +154,22 @@ router.post('/addDestinationToUser',verify, async (req,res) => {
     }
 })
 
-router.get('/allDestinationsOfUser',verify, async (req,res) => {
+router.get('/allDestinationsOfUser/:id_user',verify, async (req,res) => {
     //Check if the id of the user do not exist
-    const idUser = await db.findUserById(req.body.id_user)
+    const idUser = await db.findUserById(req.params.id_user)
     if(!idUser[0]) return res.status(400).send('The id of the user is not registered in the database')
 
     try {
-        const results = await db.findDestinationsOfUserById(req.body.id_user);
+        const results = await db.findDestinationsOfUserById(req.params.id_user);
         res.send(results)
     } catch (error) {
         res.status(400).send(error)
     }
 })
 
-router.get('/findUserById',verify,async (req,res) => {
+router.get('/findUserById/:id_user',verify,async (req,res) => {
     try {
-        const results = await db.findUserById(req.body.id_user);
+        const results = await db.findUserById(req.params.id_user);
         if(!results[0]) return res.status(400).send('The id of the user is not registered in the database')
         res.send(results)
     } catch (error) {
