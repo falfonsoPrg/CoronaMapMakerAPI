@@ -91,13 +91,13 @@ router.delete('/deleteSymtomFromUser',verify, async (req,res) => {
     }
 })
 
-router.get('/allSymptomsOfUser',verify, async (req,res) => {
+router.get('/allSymptomsOfUser/:id_user',verify, async (req,res) => {
     //Check if the id of the user do not exist
-    const idUser = await db.findUserById(req.body.id_user)
+    const idUser = await db.findUserById(req.params.id_user)
     if(!idUser[0]) return res.status(400).send('The id of the user is not registered in the database')
 
     try {
-        const results = await db.findSymptomsOfUserById(req.body.id_user);
+        const results = await db.findSymptomsOfUserById(req.params.id_user);
         res.send(results)
     } catch (error) {
         res.status(400).send(error)
