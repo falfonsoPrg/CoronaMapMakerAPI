@@ -114,9 +114,9 @@ router.post('/registerPlace',verify, async (req,res) => {
     if(error) return res.status(400).send(error.details[0].message)
 
     //Check if the exact position exist in the database, latitude and longitude
-    const exist = await db.findPlaceByLatAndLong({lat:req.body.latitude_place,long:req.body.longitude_place})
-    if(exist[0]) return res.status(400).send('The exact latitude and longitude exist in the database')
-    console.log(exist[0])
+    //const exist = await db.findPlaceByLatAndLong({lat: req.body.latitude_place,long: req.body.longitude_place})
+    //if(exist[0]) return res.status(400).send('The exact latitude and longitude exist in the database')
+    
     const place = {
         cod_place: req.body.cod_place,
         place_name: req.body.place_name,
